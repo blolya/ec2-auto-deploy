@@ -32,7 +32,7 @@ jobs:
 
       - name: Connect via ssh and pull changes
         run: |
-          echo ${{ secrets.SSH_KEY }} > ssh_key
+          echo "${{ secrets.SSH_KEY }}" > ssh_key
           ssh -i ssh_key ubuntu@$public_ip /bin/bash << EOL
             cd ec2-auto-deploy
             git pull
