@@ -32,10 +32,10 @@ jobs:
 
       - name: Connect via ssh and pull changes
         run: |
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/ssh_key.pem
-          chmod 600 ~/.ssh/ssh_key.pem
+          echo "${{ secrets.SSH_KEY }}" > ssh_key.pem
+          chmod 600 ssh_key.pem
           echo $public_ip
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/ssh_key.pem ubuntu@$public_ip /bin/bash << EOL
+          ssh -o StrictHostKeyChecking=no -i ssh_key.pem ubuntu@$public_ip /bin/bash << EOL
             cd ec2-auto-deploy
             git pull
             npm install
