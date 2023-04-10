@@ -1,0 +1,11 @@
+{
+  "name": "ec2-auto-deploy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:blolya/ec2-auto-deploy.git",
+  "author": "blolya <mast-94@mail.ru>",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}
