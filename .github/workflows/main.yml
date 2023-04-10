@@ -35,6 +35,7 @@ jobs:
           echo "${{ secrets.SSH_KEY }}" > ssh_key.pem
           chmod 600 ssh_key.pem
           echo $public_ip
+          ls
           ssh -i ssh_key.pem ubuntu@$public_ip /bin/bash << EOL
             cd ec2-auto-deploy
             git pull
