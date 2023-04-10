@@ -32,7 +32,8 @@ jobs:
 
       - name: Connect via ssh and pull changes
         run: |
-          echo "${{ secrets.SSH_KEY }}" > ssh_key
+          echo "${{ secrets.SSH_KEY }}" > ssh_key.pem
+          chmod 600 ssk_key.pem
           echo $public_ip
           ssh -i ssh_key ubuntu@$public_ip /bin/bash << EOL
             cd ec2-auto-deploy
