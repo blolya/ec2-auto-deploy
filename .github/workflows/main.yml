@@ -28,7 +28,7 @@ jobs:
 
       - name: Check if instance is ready
         run: |
-          public_ip = aws ec2 describe-instances --instance-ids ${{ vars.INSTANCE_ID }} --query 'Reservations[*].Instances[*].PublicIpAddress' --output text
+          public_ip=aws ec2 describe-instances --instance-ids ${{ vars.INSTANCE_ID }} --query 'Reservations[*].Instances[*].PublicIpAddress' --output text
 
       - name: Connect via ssh and pull changes
         run: |
