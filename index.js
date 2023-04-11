@@ -1,3 +1,3 @@
 const _ = require('lodash');
-console.log('qwe');
+console.log('test');
 
