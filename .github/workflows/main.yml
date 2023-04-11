@@ -44,4 +44,31 @@ jobs:
       - name: Stop EC2 instance
         run: |
           aws ec2 stop-instances --instance-ids ${{ vars.INSTANCE_ID }}
+          sleep 40
 
+      - name: Create new AMI
+        run: |
+          echo "new_ami_id=$(aws create-image --instance-id ${{ vars.INSTANCE_ID }} --output text --name vp-converter-ami_$(date +'%Y-%m-%d-%H:%M'))" >> $GITHUB_ENV
+          sleep 40
+
+      - name: Update function environment variables
+        run: |
+          new_envs=$(aws lambda get-function-configuration --function-name my-s3-function --query "Environment.Variables | merge(@, \`{\"AMI_ID\":\"$new_ami_id\"}\`)")
+
+          aws lambda update-function-configuration --function-name my-s3-function --environment "{ \"Variables\": $new_envs }"
+          sleep 40
+
+      - name: Delete old AMI
+        run: |
+          images_num=$(aws ec2 describe-images --filter "Name=name,Values=vp-converter-ami_*" --region ${{ secrets.AWS_REGION }} --query 'length(Images)' --output text)
+          echo $images_num
+
+          if (($images_num > 1)); then
+            old_ami_id=$(aws ec2 describe-images --filter "Name=name,Values=vp-converter-ami_*" --region ${{ secrets.AWS_REGION }} --query 'sort_by(Images,&CreationDate)[0].ImageId' --output text)
+
+            echo $old_ami_id
+
+            aws ec2 deregister-image --image-id $old_ami_id
+          fi
+
+          sleep 40
