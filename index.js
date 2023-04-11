@@ -1,3 +1,3 @@
 const _ = require('lodash');
-console.log('test');
+console.log('test del');
 
